@@ -73,7 +73,7 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent event) {
                 // 从 entityList 中随机选取一个实体
-                ExcelEntity randomEntity = getRandomEntity();
+                ExcelEntity randomEntity = Utils.getRandomEntity(entityList);
                 if (randomEntity!= null) {
                     // 将实体的信息设置到相应的标签上
                     titleLabel.setText("抽取: " + randomEntity.getTitle());
@@ -114,13 +114,13 @@ public class Main extends Application {
                 // 调用 API 获取黄金价格
                 String goldPrice = HttpUtils.getPriceFromUrl(goldapiUrl + "?v=&key=" + apiKey);
                 // 将获取的 JSON 字符串转换为 JSONObject
-                JSONObject goldmoney = toJson(goldPrice);
+                JSONObject goldmoney = Utils.toJson(goldPrice);
                 // 解析 JSON 数据，获取特定的黄金信息
                 JSONObject totlegold = goldmoney.getJSONArray("result").getJSONObject(0).getJSONObject("12");
                 // 将 JSONObject 转换为 GoldInfo 实体对象
                 goldInfo = JsonToEntityUtil.jsonObjectToGoldInfo(totlegold);
                 // 更新界面显示的数据
-                updateData(goldInfo);
+                Utils.updateData(goldInfo, vbox);
                 // priceText.setText(goldInfo.toLable().toString());
                 // 以下是模拟获取股票价格的部分，实际中需要替换为真实的 API 调用
                 // String stockPrice = getPriceFromUrl("https://example.com/stock-price-api");
@@ -157,46 +157,6 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    // 将 JSON 字符串转换为 JSONObject 的方法
-    public JSONObject toJson(String jsonString) {
-        JSONObject jsonObject = new JSONObject(jsonString);
-        return jsonObject;
-    }
-
-    // 更新界面数据的方法，在 JavaFX 应用程序线程中执行
-    private void updateData(GoldInfo newGoldInfo) {
-        Platform.runLater(() -> {
-            if (newGoldInfo!= null) {
-                // 更新 goldInfo 对象的数据
-                goldInfo.setVariety(newGoldInfo.getVariety());
-                goldInfo.setLatestpri(newGoldInfo.getLatestpri());
-                goldInfo.setOpenpri(newGoldInfo.getOpenpri());
-                goldInfo.setMaxpri(newGoldInfo.getMaxpri());
-                goldInfo.setMinpri(newGoldInfo.getMinpri());
-                goldInfo.setLimit(newGoldInfo.getLimit());
-                goldInfo.setYespri(newGoldInfo.getYespri());
-
-                // 更新各个标签显示的内容
-                ((Label) vbox.getChildren().get(0)).setText("品种: " + "99%纯度黄金");
-                ((Label) vbox.getChildren().get(1)).setText("最新价: " + goldInfo.getLatestpri());
-                ((Label) vbox.getChildren().get(2)).setText("开盘价: " + goldInfo.getOpenpri());
-                ((Label) vbox.getChildren().get(3)).setText("最高价: " + goldInfo.getMaxpri());
-                ((Label) vbox.getChildren().get(4)).setText("最低价: " + goldInfo.getMinpri());
-                ((Label) vbox.getChildren().get(5)).setText("涨跌幅: " + goldInfo.getLimit());
-                ((Label) vbox.getChildren().get(6)).setText("昨收价: " + goldInfo.getYespri());
-            }
-        });
-    }
-
-    // 从 entityList 中随机获取一个 ExcelEntity 的方法
-    private ExcelEntity getRandomEntity() {
-        if (entityList == null || entityList.isEmpty()) {
-            return null;
-        }
-        Random random = new Random();
-        int index = random.nextInt(entityList.size());
-        return entityList.get(index);
-    }
 
     // 主程序入口
     public static void main(String[] args) {
