@@ -27,7 +27,7 @@ Excel 数据读取：利用 util.ExcelReaderUtil 工具类，基于 Apache POI �
  **ExcelReaderUtil.java** ：提供读取 Excel 文件，并将文件内容转换为 ExcelEntity 列表的方法。
 
 ####   **资源文件：** 
- ** style.css** ：用于定义 JavaFX 界面的样式，包括组件的颜色、字体、间距等外观属性，提升用户界面的视觉效果。
+ **style.css** ：用于定义 JavaFX 界面的样式，包括组件的颜色、字体、间距等外观属性，提升用户界面的视觉效果。
 ####   **使用方法** 
 确保本地环境已安装 Java Development Kit（JDK），建议使用 JDK 8 及以上版本。
 从 GitHub 仓库下载项目源代码，解压到本地目录。
