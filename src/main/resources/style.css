@@ -1,0 +1,27 @@
+/* 修改默认 Label 样式 */
+.label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+    -fx-padding: 0px 20px; /* 内边距留空 */
+}
+
+/* 修改默认 Button 样式 */
+.button {
+    -fx-background-color: #2876a7; /* 按钮颜色改为绿色 */
+    -fx-text-fill: white;
+    -fx-font-size: 11px; /* 字体改小 2 个字号 */
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 9px; /* 圆角 */
+    -fx-background-radius: 9px; /* 圆角 */
+    -fx-border-color: #538ad1; /* 边框颜色与背景颜色相同 */
+    -fx-cursor: hand;
+    -fx-alignment: center; /* 尝试使按钮内容居中 */
+    -fx-display: inline-block; /* 增加这行以确保居中生效 */
+}
+
+/* 鼠标悬停在 Button 上的样式 */
+.button:hover {
+    -fx-background-color: #218838; /* 鼠标悬停时颜色变深 */
+    -fx-border-color: #218838;
+}
