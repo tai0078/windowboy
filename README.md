@@ -14,7 +14,7 @@
 Excel 数据读取：利用 util.ExcelReaderUtil 工具类，基于 Apache POI 库实现对 Excel 文件的读取操作。将 Excel 文件中的数据读取并转换为 ExcelEntity 实体类对象列表，以便后续抽签功能的实现。
 随机抽取：通过 Random 类生成随机数，从存储签文信息的 ExcelEntity 列表中随机抽取一条签文，实现抽签的随机性。
 
-####  项目结构
+##  项目结构
 
 ####   **org.example** 包：
  **Main.java** ：程序的主入口，继承自 Application 类，负责启动 JavaFX 应用程序，并调用 SceneFactory 创建和设置主场景。
@@ -26,9 +26,9 @@ Excel 数据读取：利用 util.ExcelReaderUtil 工具类，基于 Apache POI �
  **ExcelEntity.java** ：签文信息的实体类，包含签文相关的各种属性及对应的 getter 和 setter 方法。
  **ExcelReaderUtil.java** ：提供读取 Excel 文件，并将文件内容转换为 ExcelEntity 列表的方法。
 
-####   **资源文件：** 
+##   **资源文件：** 
  **style.css** ：用于定义 JavaFX 界面的样式，包括组件的颜色、字体、间距等外观属性，提升用户界面的视觉效果。
-####   **使用方法** 
+##   **使用方法** 
 确保本地环境已安装 Java Development Kit（JDK），建议使用 JDK 8 及以上版本。
 从 GitHub 仓库下载项目源代码，解压到本地目录。
 打开命令行工具，切换到项目根目录。
