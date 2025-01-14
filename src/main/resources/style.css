@@ -2,14 +2,18 @@
 .label {
     -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333;
+    -fx-text-fill: #e6e6e6;
     -fx-padding: 0px 20px; /* 内边距留空 */
+}
+.root {
+    -fx-background-color: #121212;
+    -fx-text-fill: #f0f0f0;
 }
 
 /* 修改默认 Button 样式 */
 .button {
-    -fx-background-color: #2876a7; /* 按钮颜色改为绿色 */
-    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(#333333, #111111); /* 按钮颜色改为黑色，并增加立体感 */
+    -fx-text-fill: #ffcc00; /* 文字颜色改为金色 */
     -fx-font-size: 11px; /* 字体改小 2 个字号 */
     -fx-padding: 8px 16px;
     -fx-border-radius: 9px; /* 圆角 */
@@ -22,6 +26,6 @@
 
 /* 鼠标悬停在 Button 上的样式 */
 .button:hover {
-    -fx-background-color: #218838; /* 鼠标悬停时颜色变深 */
-    -fx-border-color: #218838;
+    -fx-background-color: linear-gradient(#444444, #222222); /* 鼠标悬停时颜色变深，并增加立体感 */
+    -fx-border-color: #ffcc00;
 }
