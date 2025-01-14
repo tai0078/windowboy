@@ -16,19 +16,19 @@ Excel 数据读取：利用 util.ExcelReaderUtil 工具类，基于 Apache POI �
 
 ####  项目结构
 
-####  org.example包：
-Main.java：程序的主入口，继承自 Application 类，负责启动 JavaFX 应用程序，并调用 SceneFactory 创建和设置主场景。
-SceneFactory.java：采用工厂模式，负责创建和配置 JavaFX 场景。在 createScene 方法中，初始化界面组件、设置组件的事件处理逻辑，并将组件添加到场景中。
+####   **org.example** 包：
+ **Main.java** ：程序的主入口，继承自 Application 类，负责启动 JavaFX 应用程序，并调用 SceneFactory 创建和设置主场景。
+ **SceneFactory.java** ：采用工厂模式，负责创建和配置 JavaFX 场景。在 createScene 方法中，初始化界面组件、设置组件的事件处理逻辑，并将组件添加到场景中。
 
-####  util包：
-GoldInfo.java：黄金信息的实体类，包含黄金价格相关的各种属性及对应的 getter 和 setter 方法。
-JsonToEntityUtil.java：提供将 JSONObject 转换为 GoldInfo 实体对象的方法。
-ExcelEntity.java：签文信息的实体类，包含签文相关的各种属性及对应的 getter 和 setter 方法。
-ExcelReaderUtil.java：提供读取 Excel 文件，并将文件内容转换为 ExcelEntity 列表的方法。
+####   **util** 包：
+ **GoldInfo.java** ：黄金信息的实体类，包含黄金价格相关的各种属性及对应的 getter 和 setter 方法。
+ **JsonToEntityUtil.java** ：提供将 JSONObject 转换为 GoldInfo 实体对象的方法。
+ **ExcelEntity.java** ：签文信息的实体类，包含签文相关的各种属性及对应的 getter 和 setter 方法。
+ **ExcelReaderUtil.java** ：提供读取 Excel 文件，并将文件内容转换为 ExcelEntity 列表的方法。
 
-####  资源文件：
-style.css：用于定义 JavaFX 界面的样式，包括组件的颜色、字体、间距等外观属性，提升用户界面的视觉效果。
-####  使用方法
+####   **资源文件：** 
+ ** style.css** ：用于定义 JavaFX 界面的样式，包括组件的颜色、字体、间距等外观属性，提升用户界面的视觉效果。
+####   **使用方法** 
 确保本地环境已安装 Java Development Kit（JDK），建议使用 JDK 8 及以上版本。
 从 GitHub 仓库下载项目源代码，解压到本地目录。
 打开命令行工具，切换到项目根目录。
