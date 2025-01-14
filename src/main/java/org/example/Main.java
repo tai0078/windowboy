@@ -1,29 +1,13 @@
 package org.example;
-
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.geometry.Pos;
 import javafx.scene.text.Text;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.control.Button;
-import java.io.BufferedReader;
 import java.io.IOException;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import javafx.event.EventHandler;
-import java.util.Scanner;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ExecutorService;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import util.GoldInfo;
 import util.JsonToEntityUtil;
@@ -31,12 +15,10 @@ import util.ExcelEntity;
 import util.ExcelReaderUtil;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import java.util.List;
 import java.util.Random;
 
-// 主类，继承自 JavaFX 的 Application 类，用于启动 JavaFX 应用程序
+
 public class Main extends Application {
 
     // 布局容器
@@ -130,7 +112,7 @@ public class Main extends Application {
         fetchButton.setOnAction(event -> {
             try {
                 // 调用 API 获取黄金价格
-                String goldPrice = getPriceFromUrl(goldapiUrl + "?v=&key=" + apiKey);
+                String goldPrice = HttpUtils.getPriceFromUrl(goldapiUrl + "?v=&key=" + apiKey);
                 // 将获取的 JSON 字符串转换为 JSONObject
                 JSONObject goldmoney = toJson(goldPrice);
                 // 解析 JSON 数据，获取特定的黄金信息
@@ -173,23 +155,6 @@ public class Main extends Application {
         // 将场景设置到舞台并显示
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    // 从指定 URL 获取数据的方法
-    private String getPriceFromUrl(String urlStr) throws IOException {
-        URL url = new URL(urlStr);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        StringBuilder response = new StringBuilder();
-        String line;
-        while ((line = reader.readLine())!= null) {
-            response.append(line);
-        }
-        reader.close();
-        connection.disconnect();
-        return response.toString();
     }
 
     // 将 JSON 字符串转换为 JSONObject 的方法
