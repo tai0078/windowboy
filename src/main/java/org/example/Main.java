@@ -19,7 +19,6 @@ import javafx.stage.Stage;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.awt.*;
 import javafx.event.EventHandler;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
@@ -35,20 +34,28 @@ import javafx.scene.control.Label;
 import java.util.List;
 import java.util.Random;
 
+// 主类，继承自 JavaFX 的 Application 类，用于启动 JavaFX 应用程序
 public class Main extends Application {
 
+    // 布局容器
     private VBox vbox;
+    // 显示价格的文本组件
     private Text priceText = new Text();
-    private GoldInfo goldInfo=new GoldInfo();
+    // 存储黄金信息的对象
+    private GoldInfo goldInfo = new GoldInfo();
+    // 存储从 Excel 读取的实体列表
     private List<ExcelEntity> entityList;
 
+    // 调用 API 的密钥
     String apiKey = "21eb7a3312647fe86235543ca530b559";
+    // 黄金价格的 API 地址
     String goldapiUrl = "http://web.juhe.cn/finance/gold/shgold";
 
     @Override
     public void start(Stage primaryStage) {
+        // 从 Excel 读取数据到 entityList 中
         entityList = ExcelReaderUtil.readExcel();
-        //显示算命
+        // 显示算命结果的一系列标签
         Label resultLabel = new Label();
         Label idLabel = new Label();
         Label titleLabel = new Label();
@@ -62,7 +69,7 @@ public class Main extends Application {
         Label jie4Label = new Label();
         Label jie5Label = new Label();
         Label jie6Label = new Label();
-        // 设置标签自动换行
+        // 设置标签自动换行，以便更好地显示较长的文本
         idLabel.setWrapText(true);
         titleLabel.setWrapText(true);
         contextLabel.setWrapText(true);
@@ -76,12 +83,15 @@ public class Main extends Application {
         jie5Label.setWrapText(true);
         jie6Label.setWrapText(true);
 
+        // 按钮，用于随机获取一条答案
         Button randomButton = new Button("===获取一条答案===");
         randomButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                // 从 entityList 中随机选取一个实体
                 ExcelEntity randomEntity = getRandomEntity();
                 if (randomEntity!= null) {
+                    // 将实体的信息设置到相应的标签上
                     titleLabel.setText("抽取: " + randomEntity.getTitle());
                     contextLabel.setText("方位吉凶: " + randomEntity.getContext());
                     wenLabel.setText("" + randomEntity.getWen());
@@ -94,6 +104,7 @@ public class Main extends Application {
                     jie5Label.setText(" " + randomEntity.getJie5());
                     jie6Label.setText(" " + randomEntity.getJie6());
                 } else {
+                    // 若未获取到实体，清空标签内容
                     titleLabel.setText("");
                     contextLabel.setText("");
                     wenLabel.setText("");
@@ -108,29 +119,36 @@ public class Main extends Application {
                 }
             }
         });
+        // 设置舞台标题
         primaryStage.setTitle("黄金与股票价格查询");
-//        GoldInfo goldInfo=new GoldInfo();
+        // GoldInfo goldInfo=new GoldInfo();
+
+        // 按钮，用于获取黄金价格
         Button fetchButton = new Button("获取价格");
         fetchButton.setOnAction(event -> {
             try {
-                // 这里获取黄金价格的接口
-                String goldPrice = getPriceFromUrl(goldapiUrl+"?v=&key="+apiKey);
-                JSONObject goldmoney=toJson(goldPrice);
-                JSONObject totlegold=goldmoney.getJSONArray("result").getJSONObject(0).getJSONObject("12");
-                // 将JSONObject转换为实体类对象
+                // 调用 API 获取黄金价格
+                String goldPrice = getPriceFromUrl(goldapiUrl + "?v=&key=" + apiKey);
+                // 将获取的 JSON 字符串转换为 JSONObject
+                JSONObject goldmoney = toJson(goldPrice);
+                // 解析 JSON 数据，获取特定的黄金信息
+                JSONObject totlegold = goldmoney.getJSONArray("result").getJSONObject(0).getJSONObject("12");
+                // 将 JSONObject 转换为 GoldInfo 实体对象
                 goldInfo = JsonToEntityUtil.jsonObjectToGoldInfo(totlegold);
+                // 更新界面显示的数据
                 updateData(goldInfo);
-                //priceText.setText(goldInfo.toLable().toString());
-                // 模拟获取股票价格的接口（实际中替换为真实可用的）
-//                String stockPrice = getPriceFromUrl("https://example.com/stock-price-api");
-//                priceText.setText("黄金价格: " + goldPrice + "\n股票价格: " + stockPrice);
+                // priceText.setText(goldInfo.toLable().toString());
+                // 以下是模拟获取股票价格的部分，实际中需要替换为真实的 API 调用
+                // String stockPrice = getPriceFromUrl("https://example.com/stock-price-api");
+                // priceText.setText("黄金价格: " + goldPrice + "\n股票价格: " + stockPrice);
             } catch (IOException e) {
                 e.printStackTrace();
+                // 若发生异常，显示错误信息
                 priceText.setText("获取价格出错，请检查网络或接口配置");
             }
         });
 
-        // 创建显示各个数据的标签，使用实体类的getter方法获取对应数据
+        // 创建显示各个数据的标签，使用实体类的 getter 方法获取对应数据
         Label varietyLabel = new Label("品种: " + goldInfo.getVariety());
         Label latestpriLabel = new Label("最新价: " + goldInfo.getLatestpri());
         Label openpriLabel = new Label("开盘价: " + goldInfo.getOpenpri());
@@ -138,18 +156,24 @@ public class Main extends Application {
         Label minpriLabel = new Label("最低价: " + goldInfo.getMinpri());
         Label limitLabel = new Label("涨跌幅: " + goldInfo.getLimit());
         Label yespriLabel = new Label("昨收价: " + goldInfo.getYespri());
+        // 创建垂直布局容器
         vbox = new VBox(10);
+        // 将各个组件添加到垂直布局容器中
         vbox.getChildren().addAll(varietyLabel, latestpriLabel, openpriLabel, maxpriLabel, minpriLabel,
-                limitLabel, yespriLabel,fetchButton,randomButton,
+                limitLabel, yespriLabel, fetchButton, randomButton,
                 titleLabel, contextLabel, wenLabel, gujieLabel, jieLabel, jie1Label, jie2Label,
                 jie3Label, jie4Label, jie5Label, jie6Label);
+        // 创建场景并设置布局
         Scene scene = new Scene(vbox, 450, 1000);
+        // 为场景添加样式表
         scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
+        // 将场景设置到舞台并显示
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
+    // 从指定 URL 获取数据的方法
     private String getPriceFromUrl(String urlStr) throws IOException {
         URL url = new URL(urlStr);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -165,14 +189,18 @@ public class Main extends Application {
         connection.disconnect();
         return response.toString();
     }
-    public JSONObject toJson(String jsonString){
+
+    // 将 JSON 字符串转换为 JSONObject 的方法
+    public JSONObject toJson(String jsonString) {
         JSONObject jsonObject = new JSONObject(jsonString);
         return jsonObject;
     }
-    // 更新界面数据的方法
+
+    // 更新界面数据的方法，在 JavaFX 应用程序线程中执行
     private void updateData(GoldInfo newGoldInfo) {
         Platform.runLater(() -> {
             if (newGoldInfo!= null) {
+                // 更新 goldInfo 对象的数据
                 goldInfo.setVariety(newGoldInfo.getVariety());
                 goldInfo.setLatestpri(newGoldInfo.getLatestpri());
                 goldInfo.setOpenpri(newGoldInfo.getOpenpri());
@@ -192,6 +220,8 @@ public class Main extends Application {
             }
         });
     }
+
+    // 从 entityList 中随机获取一个 ExcelEntity 的方法
     private ExcelEntity getRandomEntity() {
         if (entityList == null || entityList.isEmpty()) {
             return null;
@@ -201,6 +231,7 @@ public class Main extends Application {
         return entityList.get(index);
     }
 
+    // 主程序入口
     public static void main(String[] args) {
         launch(args);
     }
